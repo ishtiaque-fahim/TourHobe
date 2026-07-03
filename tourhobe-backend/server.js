@@ -5,6 +5,8 @@ const cors = require('cors');
 const connectDB = require('./config/db');
 const userRoutes = require('./routes/userRoutes');
 const resortRoutes = require('./routes/resortRoutes');
+const bookingRoutes = require('./routes/bookingRoutes');
+const reviewRoutes = require('./routes/reviewRoutes');
 
 const app = express();
 connectDB();
@@ -15,6 +17,8 @@ app.use(express.json());
 // Routes
 app.use('/api/users', userRoutes);
 app.use('/api/resorts', resortRoutes);
+app.use('/api/bookings', bookingRoutes);
+app.use('/api/reviews', reviewRoutes);
 
 app.get('/', (req, res) => {
     res.json({ message: 'TourHobe backend is alive!', status: 'success' });
