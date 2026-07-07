@@ -20,6 +20,7 @@ app.use('/api/resorts', resortRoutes);
 app.use('/api/bookings', bookingRoutes);
 app.use('/api/reviews', reviewRoutes);
 
+
 app.get('/', (req, res) => {
     res.json({ message: 'TourHobe backend is alive!', status: 'success' });
 });
