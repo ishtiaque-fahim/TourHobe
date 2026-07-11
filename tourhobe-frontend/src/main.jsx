@@ -4,6 +4,8 @@ import './index.css'
 import App from './App.jsx'
 import { AuthProvider } from './context/AuthContext.jsx'
 
+document.documentElement.setAttribute('data-theme', 'tourhobe');
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <AuthProvider>

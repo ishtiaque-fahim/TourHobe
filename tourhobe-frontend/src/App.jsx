@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
+import Resorts from "./pages/Resorts";
 import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
+          <Route path="resorts" element={<Resorts />} />
           <Route path="dashboard" element={
             <PrivateRoute>
               <Dashboard />
