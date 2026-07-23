@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import Resorts from "./pages/Resorts";
+import ResortDetail from "./pages/ResortDetail";
 import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route path="resorts" element={<Resorts />} />
+          <Route path="resorts/:id" element={<ResortDetail />} />
           <Route path="dashboard" element={
             <PrivateRoute>
               <Dashboard />
