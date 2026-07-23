@@ -6,6 +6,8 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import Resorts from "./pages/Resorts";
 import ResortDetail from "./pages/ResortDetail";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
 import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
@@ -18,6 +20,8 @@ function App() {
           <Route path="register" element={<Register />} />
           <Route path="resorts" element={<Resorts />} />
           <Route path="resorts/:id" element={<ResortDetail />} />
+          <Route path="about" element={<About />} />
+          <Route path="contact" element={<Contact />} />
           <Route path="dashboard" element={
             <PrivateRoute>
               <Dashboard />
