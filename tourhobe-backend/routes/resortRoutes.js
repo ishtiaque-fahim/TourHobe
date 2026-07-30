@@ -13,6 +13,18 @@ const requireRole = require('../middleware/requireRole');
 
 // Public routes
 router.get('/', getAllResorts);
+
+// Admin only — get ALL resorts regardless of status
+router.get('/admin/all', verifyToken, requireRole('admin'), async (req, res) => {
+    try {
+        const Resort = require('../models/Resort');
+        const resorts = await Resort.find().populate('ownerId', 'name email');
+        return res.status(200).json(resorts);
+    } catch (error) {
+        return res.status(500).json({ message: 'Server error', error: error.message });
+    }
+});
+
 router.get('/:id', getResortById);
 
 // Owner only
