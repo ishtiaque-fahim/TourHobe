@@ -16,7 +16,7 @@ export const useAuth = () => useContext(AuthContext);
 
 const syncUserToBackend = async (user) => {
     try {
-        const response = await axios.post('http://localhost:5000/api/users', {
+        const response = await axios.post('https://tourhobe-backend.onrender.com/api/users', {
             firebaseUID: user.uid,
             name: user.displayName || 'Tourist',
             email: user.email,

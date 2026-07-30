@@ -10,7 +10,7 @@ const MyResorts = () => {
     const fetchMyResorts = async () => {
         try {
             const token = await currentUser.getIdToken();
-            const res = await axios.get('http://localhost:5000/api/resorts/owner/my', {
+            const res = await axios.get('https://tourhobe-backend.onrender.com/api/resorts/owner/my', {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setResorts(res.data);
@@ -55,11 +55,10 @@ const MyResorts = () => {
                                 <p className="text-gray-500">📍 {resort.district}</p>
                                 <div className="flex justify-between items-center">
                                     <span className="text-primary font-bold">৳{resort.pricePerNight}/night</span>
-                                    <span className={`badge ${
-                                        resort.status === 'approved' ? 'badge-success' :
-                                        resort.status === 'pending' ? 'badge-warning' :
-                                        'badge-error'
-                                    }`}>
+                                    <span className={`badge ${resort.status === 'approved' ? 'badge-success' :
+                                            resort.status === 'pending' ? 'badge-warning' :
+                                                'badge-error'
+                                        }`}>
                                         {resort.status}
                                     </span>
                                 </div>

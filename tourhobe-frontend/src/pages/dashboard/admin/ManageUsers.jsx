@@ -11,7 +11,7 @@ const ManageUsers = () => {
     const fetchUsers = async () => {
         try {
             const token = await currentUser.getIdToken();
-            const res = await axios.get('http://localhost:5000/api/users', {
+            const res = await axios.get('https://tourhobe-backend.onrender.com/api/users', {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setUsers(res.data);
@@ -29,7 +29,7 @@ const ManageUsers = () => {
         setUpdating(userId);
         try {
             const token = await currentUser.getIdToken();
-            await axios.patch(`http://localhost:5000/api/users/${userId}/role`,
+            await axios.patch(`https://tourhobe-backend.onrender.com/api/users/${userId}/role`,
                 { role: newRole },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
@@ -79,8 +79,8 @@ const ManageUsers = () => {
                                 <td className="text-gray-500 text-sm">{user.email}</td>
                                 <td>
                                     <span className={`badge ${user.role === 'admin' ? 'badge-error' :
-                                            user.role === 'owner' ? 'badge-warning' :
-                                                'badge-success'
+                                        user.role === 'owner' ? 'badge-warning' :
+                                            'badge-success'
                                         }`}>
                                         {user.role}
                                     </span>

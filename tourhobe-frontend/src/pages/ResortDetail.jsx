@@ -29,8 +29,8 @@ const ResortDetail = () => {
         const fetchData = async () => {
             try {
                 const [resortRes, reviewsRes] = await Promise.all([
-                    axios.get(`http://localhost:5000/api/resorts/${id}`),
-                    axios.get(`http://localhost:5000/api/reviews/resort/${id}`)
+                    axios.get(`https://tourhobe-backend.onrender.com/api/resorts/${id}`),
+                    axios.get(`https://tourhobe-backend.onrender.com/api/reviews/resort/${id}`)
                 ]);
                 setResort(resortRes.data);
                 setReviews(reviewsRes.data);
@@ -57,7 +57,7 @@ const ResortDetail = () => {
         setBookingMessage('');
         try {
             const token = await currentUser.getIdToken();
-            await axios.post('http://localhost:5000/api/bookings', {
+            await axios.post('https://tourhobe-backend.onrender.com/api/bookings', {
                 resortId: id,
                 checkIn,
                 checkOut,
@@ -83,7 +83,7 @@ const ResortDetail = () => {
         setReviewMessage('');
         try {
             const token = await currentUser.getIdToken();
-            await axios.post('http://localhost:5000/api/reviews', {
+            await axios.post('https://tourhobe-backend.onrender.com/api/reviews', {
                 resortId: id,
                 rating,
                 comment
@@ -94,7 +94,7 @@ const ResortDetail = () => {
             setComment('');
             setRating(5);
             // Refresh reviews
-            const reviewsRes = await axios.get(`http://localhost:5000/api/reviews/resort/${id}`);
+            const reviewsRes = await axios.get(`https://tourhobe-backend.onrender.com/api/reviews/resort/${id}`);
             setReviews(reviewsRes.data);
         } catch (error) {
             setReviewMessage('❌ ' + (error.response?.data?.message || error.message));

@@ -11,7 +11,7 @@ const MyBookings = () => {
     const fetchBookings = async () => {
         try {
             const token = await currentUser.getIdToken();
-            const res = await axios.get('http://localhost:5000/api/bookings/my', {
+            const res = await axios.get('https://tourhobe-backend.onrender.com/api/bookings/my', {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setBookings(res.data);
@@ -30,7 +30,7 @@ const MyBookings = () => {
         try {
             const token = await currentUser.getIdToken();
             await axios.patch(
-                `http://localhost:5000/api/bookings/${bookingId}/cancel`,
+                `https://tourhobe-backend.onrender.com/api/bookings/${bookingId}/cancel`,
                 {},
                 { headers: { Authorization: `Bearer ${token}` } }
             );
@@ -76,12 +76,11 @@ const MyBookings = () => {
                                             <h3 className="text-lg font-bold text-secondary">
                                                 {booking.resortId?.name}
                                             </h3>
-                                            <span className={`badge ${
-                                                booking.status === 'confirmed' ? 'badge-success' :
+                                            <span className={`badge ${booking.status === 'confirmed' ? 'badge-success' :
                                                 booking.status === 'pending' ? 'badge-warning' :
-                                                booking.status === 'cancelled' ? 'badge-error' :
-                                                'badge-info'
-                                            }`}>
+                                                    booking.status === 'cancelled' ? 'badge-error' :
+                                                        'badge-info'
+                                                }`}>
                                                 {booking.status}
                                             </span>
                                         </div>

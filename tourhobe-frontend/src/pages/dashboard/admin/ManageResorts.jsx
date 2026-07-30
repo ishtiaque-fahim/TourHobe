@@ -12,7 +12,7 @@ const ManageResorts = () => {
     const fetchResorts = async () => {
         try {
             const token = await currentUser.getIdToken();
-            const res = await axios.get('http://localhost:5000/api/resorts/admin/all', {
+            const res = await axios.get('https://tourhobe-backend.onrender.com/api/resorts/admin/all', {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setResorts(res.data);
@@ -30,7 +30,7 @@ const ManageResorts = () => {
         setUpdating(resortId);
         try {
             const token = await currentUser.getIdToken();
-            await axios.patch(`http://localhost:5000/api/resorts/${resortId}/status`,
+            await axios.patch(`https://tourhobe-backend.onrender.com/api/resorts/${resortId}/status`,
                 { status: newStatus },
                 { headers: { Authorization: `Bearer ${token}` } }
             );

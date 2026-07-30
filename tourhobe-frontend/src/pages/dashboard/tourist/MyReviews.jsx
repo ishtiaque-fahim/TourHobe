@@ -11,7 +11,7 @@ const MyReviews = () => {
         const fetchReviews = async () => {
             try {
                 const token = await currentUser.getIdToken();
-                const res = await axios.get('http://localhost:5000/api/reviews/my', {
+                const res = await axios.get('https://tourhobe-backend.onrender.com/api/reviews/my', {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 setReviews(res.data);

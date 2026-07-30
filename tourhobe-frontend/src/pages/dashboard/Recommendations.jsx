@@ -15,7 +15,7 @@ const Recommendations = () => {
         setLoading(true);
         try {
             const token = await currentUser.getIdToken();
-            const res = await axios.get('http://localhost:5000/api/recommendations', {
+            const res = await axios.get('https://tourhobe-backend.onrender.com/api/recommendations', {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setRecommendations(res.data.recommendations);

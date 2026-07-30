@@ -21,7 +21,7 @@ const Resorts = () => {
             if (minPrice) params.minPrice = minPrice;
             if (maxPrice) params.maxPrice = maxPrice;
 
-            const res = await axios.get('http://localhost:5000/api/resorts', { params });
+            const res = await axios.get('https://tourhobe-backend.onrender.com/api/resorts', { params });
             setResorts(res.data);
         } catch (error) {
             console.error('Failed to fetch resorts:', error.message);
