@@ -25,6 +25,17 @@ router.get('/admin/all', verifyToken, requireRole('admin'), async (req, res) => 
     }
 });
 
+// Owner only — get their own resorts
+router.get('/owner/my', verifyToken, requireRole('owner'), async (req, res) => {
+    try {
+        const Resort = require('../models/Resort');
+        const resorts = await Resort.find({ ownerId: req.user._id });
+        return res.status(200).json(resorts);
+    } catch (error) {
+        return res.status(500).json({ message: 'Server error', error: error.message });
+    }
+});
+
 router.get('/:id', getResortById);
 
 // Owner only
