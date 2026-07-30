@@ -20,6 +20,3 @@ const OwnerDashboard = () => {
 };
 
 export default OwnerDashboard;
-};
-
-export default OwnerDashboard;
