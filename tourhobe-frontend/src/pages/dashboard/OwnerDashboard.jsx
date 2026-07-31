@@ -1,5 +1,6 @@
 import { useState } from "react";
 import MyResorts from "./owner/MyResorts";
+import OwnerBookings from "./owner/MyBookings";
 
 const OwnerDashboard = () => {
     const [activeTab, setActiveTab] = useState('resorts');
@@ -13,8 +14,15 @@ const OwnerDashboard = () => {
                 >
                     My Resorts
                 </button>
+                <button
+                    className={`tab tab-lg ${activeTab === 'bookings' ? 'tab-active' : ''}`}
+                    onClick={() => setActiveTab('bookings')}
+                >
+                    Bookings Received
+                </button>
             </div>
             {activeTab === 'resorts' && <MyResorts />}
+            {activeTab === 'bookings' && <OwnerBookings />}
         </div>
     );
 };
