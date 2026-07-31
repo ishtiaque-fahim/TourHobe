@@ -25,11 +25,16 @@ const Login = () => {
 
     const handleGoogle = async () => {
         try {
-            await loginWithGoogle();
-            navigate('/dashboard');
+            const result = await loginWithGoogle();
+            if (result) {
+                // Popup succeeded
+                navigate('/dashboard');
+            }
+            // If result is null, redirect is happening — no navigate needed
+            // User will be redirected back and onAuthStateChanged will handle it
         } catch (err) {
             console.error('Google login error:', err.code, err.message);
-            setError(`Google login failed: ${err.code} - ${err.message}`);
+            setError('Google login failed. Please try again.');
         }
     };
 
