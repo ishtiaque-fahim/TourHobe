@@ -1,3 +1,4 @@
+import { auth, googleProvider, githubProvider } from "../firebase";
 import { createContext, useContext, useEffect, useState } from "react";
 import {
     createUserWithEmailAndPassword,
@@ -52,14 +53,13 @@ export const AuthProvider = ({ children }) => {
     };
 
     const loginWithGoogle = async () => {
-        try {
-            const result = await signInWithPopup(auth, googleProvider);
-            const dbUser = await syncUserToBackend(result.user);
-            setUserRole(dbUser?.role || 'tourist');
-            return result;
-        } catch (err) {
-            throw err;
-        }
+        googleProvider.setCustomParameters({
+            prompt: 'select_account'
+        });
+        const result = await signInWithPopup(auth, googleProvider);
+        const dbUser = await syncUserToBackend(result.user);
+        setUserRole(dbUser?.role || 'tourist');
+        return result;
     };
     const loginWithGithub = async () => {
         const result = await signInWithPopup(auth, githubProvider);
