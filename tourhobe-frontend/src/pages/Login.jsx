@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
@@ -7,8 +7,15 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
-    const { login, loginWithGoogle, loginWithGithub } = useAuth();
+    const { login, loginWithGoogle, loginWithGithub, currentUser } = useAuth();
     const navigate = useNavigate();
+
+    // If user is already logged in, redirect to dashboard
+    useEffect(() => {
+        if (currentUser) {
+            navigate('/dashboard', { replace: true });
+        }
+    }, [currentUser, navigate]);
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -25,15 +32,9 @@ const Login = () => {
 
     const handleGoogle = async () => {
         try {
-            const result = await loginWithGoogle();
-            if (result) {
-                // Popup succeeded
-                navigate('/dashboard');
-            }
-            // If result is null, redirect is happening — no navigate needed
-            // User will be redirected back and onAuthStateChanged will handle it
+            await loginWithGoogle();
+            if (currentUser) navigate('/dashboard');
         } catch (err) {
-            console.error('Google login error:', err.code, err.message);
             setError('Google login failed. Please try again.');
         }
     };
@@ -56,36 +57,34 @@ const Login = () => {
                     </h2>
                     <p className="text-center text-sm mb-4">Login to your TourHobe account</p>
 
-                    {/* Error Alert */}
                     {error && (
                         <div className="alert alert-error mb-4">
                             <span>{error}</span>
                         </div>
                     )}
 
-                    {/* Login Form */}
                     <form onSubmit={handleLogin} className="flex flex-col gap-4">
-                        <div className="form-control w-full">
+                        <div className="form-control">
                             <label className="label">
-                                <span className="label-text font-medium">Email</span>
+                                <span className="label-text">Email</span>
                             </label>
                             <input
                                 type="email"
                                 placeholder="email@example.com"
-                                className="input input-bordered w-full"
+                                className="input input-bordered"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 required
                             />
                         </div>
-                        <div className="form-control w-full">
+                        <div className="form-control">
                             <label className="label">
-                                <span className="label-text font-medium">Password</span>
+                                <span className="label-text">Password</span>
                             </label>
                             <input
                                 type="password"
                                 placeholder="••••••••"
-                                className="input input-bordered w-full"
+                                className="input input-bordered"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
@@ -93,17 +92,15 @@ const Login = () => {
                         </div>
                         <button
                             type="submit"
-                            className="btn btn-primary w-full mt-2"
+                            className="btn btn-primary w-full"
                             disabled={loading}
                         >
                             {loading ? <span className="loading loading-spinner"></span> : 'Login'}
                         </button>
                     </form>
 
-                    {/* Divider */}
                     <div className="divider">OR</div>
 
-                    {/* Social Login */}
                     <div className="flex flex-col gap-3">
                         <button onClick={handleGoogle} className="btn btn-outline w-full gap-2">
                             <img src="https://www.google.com/favicon.ico" className="w-5 h-5" />
@@ -115,7 +112,6 @@ const Login = () => {
                         </button>
                     </div>
 
-                    {/* Register Link */}
                     <p className="text-center mt-4 text-sm">
                         Don't have an account?{" "}
                         <Link to="/register" className="text-primary font-semibold">
