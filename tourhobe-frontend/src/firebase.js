@@ -14,8 +14,6 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 
 export const googleProvider = new GoogleAuthProvider();
-googleProvider.setCustomParameters({
-    prompt: 'select_account',
-});
+googleProvider.setCustomParameters({ prompt: 'select_account' });
 
 export const githubProvider = new GithubAuthProvider();

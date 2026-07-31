@@ -11,12 +11,14 @@ import Contact from "./pages/Contact";
 import PrivateRoute from "./components/PrivateRoute";
 import { useAuth } from "./context/AuthContext";
 import AuthCallback from "./pages/AuthCallback";
+import GoogleCallback from "./pages/GoogleCallback";
 
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="google-callback" element={<GoogleCallback />} />
         <Route path="/" element={<MainLayout />}>
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
