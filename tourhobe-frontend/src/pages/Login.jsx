@@ -28,7 +28,8 @@ const Login = () => {
             await loginWithGoogle();
             navigate('/dashboard');
         } catch (err) {
-            setError('Google login failed. Please try again.');
+            console.error('Google login error:', err.code, err.message);
+            setError(`Google login failed: ${err.code} - ${err.message}`);
         }
     };
 
