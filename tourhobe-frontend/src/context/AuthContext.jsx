@@ -34,6 +34,7 @@ export const AuthProvider = ({ children }) => {
     const [currentUser, setCurrentUser] = useState(null);
     const [userRole, setUserRole] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [redirecting, setRedirecting] = useState(false);
 
     const register = async (email, password, name) => {
         const result = await createUserWithEmailAndPassword(auth, email, password);
@@ -53,6 +54,7 @@ export const AuthProvider = ({ children }) => {
     const loginWithGoogle = async () => {
         const result = await signInWithPopup(auth, googleProvider).catch(async (err) => {
             if (err.code === 'auth/popup-blocked') {
+                setRedirecting(true);
                 await signInWithRedirect(auth, googleProvider);
                 return null;
             }
@@ -78,10 +80,13 @@ export const AuthProvider = ({ children }) => {
     };
 
     useEffect(() => {
+        setLoading(true);
+
         getRedirectResult(auth).then(async (result) => {
             if (result?.user) {
                 const dbUser = await syncUserToBackend(result.user);
                 setUserRole(dbUser?.role || 'tourist');
+                setCurrentUser(result.user);
             }
         }).catch((err) => {
             console.error('Redirect result error:', err);
@@ -104,6 +109,7 @@ export const AuthProvider = ({ children }) => {
         currentUser,
         userRole,
         loading,
+        redirecting,
         register,
         login,
         loginWithGoogle,

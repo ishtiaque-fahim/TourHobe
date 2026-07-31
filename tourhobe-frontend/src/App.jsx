@@ -12,8 +12,12 @@ import PrivateRoute from "./components/PrivateRoute";
 import { useAuth } from "./context/AuthContext";
 
 const PublicRoute = ({ children }) => {
-  const { currentUser, loading } = useAuth();
-  if (loading) return <div className="flex justify-center py-20"><span className="loading loading-spinner loading-lg text-primary"></span></div>;
+  const { currentUser, loading, redirecting } = useAuth();
+  if (loading || redirecting) return (
+    <div className="flex justify-center py-20">
+      <span className="loading loading-spinner loading-lg text-primary"></span>
+    </div>
+  );
   if (currentUser) return <Navigate to="/dashboard" replace />;
   return children;
 };
