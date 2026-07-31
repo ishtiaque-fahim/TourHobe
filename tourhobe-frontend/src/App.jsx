@@ -12,7 +12,8 @@ import PrivateRoute from "./components/PrivateRoute";
 import { useAuth } from "./context/AuthContext";
 
 const PublicRoute = ({ children }) => {
-  const { currentUser } = useAuth();
+  const { currentUser, loading } = useAuth();
+  if (loading) return <div className="flex justify-center py-20"><span className="loading loading-spinner loading-lg text-primary"></span></div>;
   if (currentUser) return <Navigate to="/dashboard" replace />;
   return children;
 };
@@ -23,16 +24,8 @@ function App() {
       <Routes>
         <Route path="/" element={<MainLayout />}>
           <Route index element={<Home />} />
-          <Route path="login" element={
-            <PublicRoute>
-              <Login />
-            </PublicRoute>
-          } />
-          <Route path="register" element={
-            <PublicRoute>
-              <Register />
-            </PublicRoute>
-          } />
+          <Route path="login" element={<PublicRoute><Login /></PublicRoute>} />
+          <Route path="register" element={<PublicRoute><Register /></PublicRoute>} />
           <Route path="resorts" element={<Resorts />} />
           <Route path="resorts/:id" element={<ResortDetail />} />
           <Route path="about" element={<About />} />
