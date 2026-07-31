@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { auth } from "../firebase";
+import axios from "axios";
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -15,6 +17,28 @@ const Login = () => {
             navigate('/dashboard', { replace: true });
         }
     }, [currentUser]);
+
+    // Handle Google redirect result
+    useEffect(() => {
+        const handleRedirectResult = async () => {
+            try {
+                const { getRedirectResult } = await import('firebase/auth');
+                const result = await getRedirectResult(auth);
+                if (result?.user) {
+                    await axios.post('https://tourhobe-backend.onrender.com/api/users', {
+                        firebaseUID: result.user.uid,
+                        name: result.user.displayName || 'Tourist',
+                        email: result.user.email,
+                        photoURL: result.user.photoURL || ''
+                    });
+                    navigate('/dashboard', { replace: true });
+                }
+            } catch (err) {
+                console.error('Redirect result error:', err);
+            }
+        };
+        handleRedirectResult();
+    }, []);
 
     const handleLogin = async (e) => {
         e.preventDefault();
