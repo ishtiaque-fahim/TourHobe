@@ -50,7 +50,7 @@ const Register = () => {
             <div className="card w-full max-w-md bg-base-100 shadow-xl">
                 <div className="card-body">
                     <div className="flex justify-center mb-2">
-                        <img src="/src/assets/logo.png" alt="TourHobe" className="h-16 w-auto" />
+                        <img src="/tourhobe.png" alt="TourHobe" className="h-16 w-auto" />
                     </div>
                     <h2 className="text-3xl font-bold text-center text-primary mb-2">
                         Join TourHobe
