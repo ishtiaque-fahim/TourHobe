@@ -13,9 +13,11 @@ const Navbar = () => {
     return (
         <div className="navbar bg-base-100 shadow-md px-4">
             {/* Logo */}
-            <Link to="/" className="flex items-center gap-1">
-                <img src="/tourhobe.png" alt="TourHobe" className="h-10" />
-            </Link>
+            <div className="flex-1">
+                <Link to="/">
+                    <img src="/tourhobe.png" alt="TourHobe" className="h-10" />
+                </Link>
+            </div>
 
             {/* Nav Links */}
             <div className="flex-none gap-2">
@@ -26,7 +28,6 @@ const Navbar = () => {
                     <li><Link to="/contact">Contact</Link></li>
                 </ul>
 
-                {/* Auth Buttons */}
                 {currentUser ? (
                     <div className="dropdown dropdown-end">
                         <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
