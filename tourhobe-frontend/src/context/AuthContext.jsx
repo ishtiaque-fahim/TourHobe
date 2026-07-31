@@ -1,11 +1,8 @@
-import { auth, googleProvider, githubProvider } from "../firebase";
 import { createContext, useContext, useEffect, useState } from "react";
 import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     signInWithPopup,
-    signInWithRedirect,
-    getRedirectResult,
     signOut,
     onAuthStateChanged,
     updateProfile
@@ -35,7 +32,6 @@ export const AuthProvider = ({ children }) => {
     const [currentUser, setCurrentUser] = useState(null);
     const [userRole, setUserRole] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [redirecting, setRedirecting] = useState(false);
 
     const register = async (email, password, name) => {
         const result = await createUserWithEmailAndPassword(auth, email, password);
@@ -53,14 +49,13 @@ export const AuthProvider = ({ children }) => {
     };
 
     const loginWithGoogle = async () => {
-        googleProvider.setCustomParameters({
-            prompt: 'select_account'
-        });
+        googleProvider.setCustomParameters({ prompt: 'select_account' });
         const result = await signInWithPopup(auth, googleProvider);
         const dbUser = await syncUserToBackend(result.user);
         setUserRole(dbUser?.role || 'tourist');
         return result;
     };
+
     const loginWithGithub = async () => {
         const result = await signInWithPopup(auth, githubProvider);
         const dbUser = await syncUserToBackend(result.user);
@@ -91,7 +86,6 @@ export const AuthProvider = ({ children }) => {
         currentUser,
         userRole,
         loading,
-        redirecting,
         register,
         login,
         loginWithGoogle,
