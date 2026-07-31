@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { auth } from "../firebase";
-import axios from "axios";
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -19,32 +17,6 @@ const Login = () => {
         }
     }, [currentUser]);
 
-    // Handle Google redirect result
-    useEffect(() => {
-        const handleRedirectResult = async () => {
-            try {
-                const { getRedirectResult } = await import('firebase/auth');
-                const result = await getRedirectResult(auth);
-                console.log('Redirect result:', result);
-                if (result?.user) {
-                    console.log('User found:', result.user.email);
-                    await axios.post('https://tourhobe-backend.onrender.com/api/users', {
-                        firebaseUID: result.user.uid,
-                        name: result.user.displayName || 'Tourist',
-                        email: result.user.email,
-                        photoURL: result.user.photoURL || ''
-                    });
-                    navigate('/dashboard', { replace: true });
-                } else {
-                    console.log('No redirect result found');
-                }
-            } catch (err) {
-                console.error('Redirect result error:', err.code, err.message);
-            }
-        };
-        handleRedirectResult();
-    }, []);
-
     const handleLogin = async (e) => {
         e.preventDefault();
         setError('');
@@ -60,9 +32,17 @@ const Login = () => {
 
     const handleGoogle = async () => {
         try {
-            await loginWithGoogle();
+            const result = await loginWithGoogle();
+            if (result?.user) {
+                navigate('/dashboard', { replace: true });
+            }
         } catch (err) {
-            setError('Google login failed. Please try again.');
+            console.error('Google error:', err.code);
+            if (err.code === 'auth/popup-blocked') {
+                setError('⚠️ Please allow popups for this site. Click the popup blocked icon in your browser address bar and select "Always allow".');
+            } else {
+                setError(`Google login failed: ${err.code}`);
+            }
         }
     };
 
