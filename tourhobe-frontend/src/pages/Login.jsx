@@ -66,7 +66,7 @@ const Login = () => {
                     <form onSubmit={handleLogin} className="flex flex-col gap-4">
                         <div className="form-control">
                             <label className="label">
-                                <span className="label-text">Email</span>
+                                <span className="label-text">Email <br /></span>
                             </label>
                             <input
                                 type="email"
@@ -79,7 +79,7 @@ const Login = () => {
                         </div>
                         <div className="form-control">
                             <label className="label">
-                                <span className="label-text">Password</span>
+                                <span className="label-text">Password <br /></span>
                             </label>
                             <input
                                 type="password"

@@ -10,6 +10,8 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import PrivateRoute from "./components/PrivateRoute";
 import { useAuth } from "./context/AuthContext";
+import AuthCallback from "./pages/AuthCallback";
+
 
 const PublicRoute = ({ children }) => {
   const { currentUser, loading, redirecting } = useAuth();
@@ -28,6 +30,7 @@ function App() {
       <Routes>
         <Route path="/" element={<MainLayout />}>
           <Route index element={<Home />} />
+          <Route path="auth/callback" element={<AuthCallback />} />
           <Route path="login" element={<PublicRoute><Login /></PublicRoute>} />
           <Route path="register" element={<PublicRoute><Register /></PublicRoute>} />
           <Route path="resorts" element={<Resorts />} />

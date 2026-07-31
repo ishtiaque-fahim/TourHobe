@@ -52,12 +52,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     const loginWithGoogle = async () => {
-        try {
-            const result = await signInWithRedirect(auth, googleProvider);
-            return result;
-        } catch (err) {
-            throw err;
-        }
+        await signInWithRedirect(auth, googleProvider);
     };
     const loginWithGithub = async () => {
         const result = await signInWithPopup(auth, githubProvider);
