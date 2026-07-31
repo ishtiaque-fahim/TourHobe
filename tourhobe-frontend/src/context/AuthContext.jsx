@@ -3,6 +3,8 @@ import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     signInWithPopup,
+    signInWithRedirect,
+    getRedirectResult,
     signOut,
     onAuthStateChanged,
     updateProfile
@@ -33,7 +35,6 @@ export const AuthProvider = ({ children }) => {
     const [userRole, setUserRole] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    // Register with email and password
     const register = async (email, password, name) => {
         const result = await createUserWithEmailAndPassword(auth, email, password);
         await updateProfile(result.user, { displayName: name });
@@ -42,7 +43,6 @@ export const AuthProvider = ({ children }) => {
         return result;
     };
 
-    // Login with email and password
     const login = async (email, password) => {
         const result = await signInWithEmailAndPassword(auth, email, password);
         const dbUser = await syncUserToBackend(result.user);
@@ -50,15 +50,21 @@ export const AuthProvider = ({ children }) => {
         return result;
     };
 
-    // Login with Google
     const loginWithGoogle = async () => {
-        const result = await signInWithPopup(auth, googleProvider);
-        const dbUser = await syncUserToBackend(result.user);
-        setUserRole(dbUser?.role || 'tourist');
+        const result = await signInWithPopup(auth, googleProvider).catch(async (err) => {
+            if (err.code === 'auth/popup-blocked') {
+                await signInWithRedirect(auth, googleProvider);
+                return null;
+            }
+            throw err;
+        });
+        if (result) {
+            const dbUser = await syncUserToBackend(result.user);
+            setUserRole(dbUser?.role || 'tourist');
+        }
         return result;
     };
 
-    // Login with GitHub
     const loginWithGithub = async () => {
         const result = await signInWithPopup(auth, githubProvider);
         const dbUser = await syncUserToBackend(result.user);
@@ -66,14 +72,21 @@ export const AuthProvider = ({ children }) => {
         return result;
     };
 
-    // Logout
     const logout = async () => {
         setUserRole(null);
         return signOut(auth);
     };
 
-    // Listen for auth state changes
     useEffect(() => {
+        getRedirectResult(auth).then(async (result) => {
+            if (result?.user) {
+                const dbUser = await syncUserToBackend(result.user);
+                setUserRole(dbUser?.role || 'tourist');
+            }
+        }).catch((err) => {
+            console.error('Redirect result error:', err);
+        });
+
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
             setCurrentUser(user);
             if (user) {
