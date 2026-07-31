@@ -52,21 +52,13 @@ export const AuthProvider = ({ children }) => {
     };
 
     const loginWithGoogle = async () => {
-        const result = await signInWithPopup(auth, googleProvider).catch(async (err) => {
-            if (err.code === 'auth/popup-blocked') {
-                setRedirecting(true);
-                await signInWithRedirect(auth, googleProvider);
-                return null;
-            }
+        try {
+            const result = await signInWithRedirect(auth, googleProvider);
+            return result;
+        } catch (err) {
             throw err;
-        });
-        if (result) {
-            const dbUser = await syncUserToBackend(result.user);
-            setUserRole(dbUser?.role || 'tourist');
         }
-        return result;
     };
-
     const loginWithGithub = async () => {
         const result = await signInWithPopup(auth, githubProvider);
         const dbUser = await syncUserToBackend(result.user);
