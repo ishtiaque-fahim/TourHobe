@@ -32,10 +32,17 @@ const Login = () => {
 
     const handleGoogle = async () => {
         try {
-            await loginWithGoogle();
-            if (currentUser) navigate('/dashboard');
+            const result = await loginWithGoogle();
+            if (result?.user) {
+                navigate('/dashboard', { replace: true });
+            }
         } catch (err) {
-            setError('Google login failed. Please try again.');
+            console.error('Google error:', err.code);
+            if (err.code === 'auth/popup-blocked') {
+                setError('Please allow popups for this site in your browser settings, then try again.');
+            } else {
+                setError(`Google login failed: ${err.code}`);
+            }
         }
     };
 
