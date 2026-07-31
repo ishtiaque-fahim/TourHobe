@@ -13,26 +13,15 @@ import { useAuth } from "./context/AuthContext";
 import AuthCallback from "./pages/AuthCallback";
 
 
-const PublicRoute = ({ children }) => {
-  const { currentUser, loading, redirecting } = useAuth();
-  if (loading || redirecting) return (
-    <div className="flex justify-center py-20">
-      <span className="loading loading-spinner loading-lg text-primary"></span>
-    </div>
-  );
-  if (currentUser) return <Navigate to="/dashboard" replace />;
-  return children;
-};
-
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<MainLayout />}>
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
           <Route index element={<Home />} />
           <Route path="auth/callback" element={<AuthCallback />} />
-          <Route path="login" element={<PublicRoute><Login /></PublicRoute>} />
-          <Route path="register" element={<PublicRoute><Register /></PublicRoute>} />
           <Route path="resorts" element={<Resorts />} />
           <Route path="resorts/:id" element={<ResortDetail />} />
           <Route path="about" element={<About />} />

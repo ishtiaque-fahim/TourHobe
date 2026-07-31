@@ -10,12 +10,11 @@ const Login = () => {
     const { login, loginWithGoogle, loginWithGithub, currentUser } = useAuth();
     const navigate = useNavigate();
 
-    // If user is already logged in, redirect to dashboard
     useEffect(() => {
         if (currentUser) {
             navigate('/dashboard', { replace: true });
         }
-    }, [currentUser, navigate]);
+    }, [currentUser]);
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -32,17 +31,9 @@ const Login = () => {
 
     const handleGoogle = async () => {
         try {
-            const result = await loginWithGoogle();
-            if (result?.user) {
-                navigate('/dashboard', { replace: true });
-            }
+            await loginWithGoogle();
         } catch (err) {
-            console.error('Google error:', err.code);
-            if (err.code === 'auth/popup-blocked') {
-                setError('Please allow popups for this site in your browser settings, then try again.');
-            } else {
-                setError(`Google login failed: ${err.code}`);
-            }
+            setError('Google login failed. Please try again.');
         }
     };
 

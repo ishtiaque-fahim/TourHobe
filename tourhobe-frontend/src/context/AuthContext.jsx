@@ -52,10 +52,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     const loginWithGoogle = async () => {
-        const result = await signInWithPopup(auth, googleProvider);
-        const dbUser = await syncUserToBackend(result.user);
-        setUserRole(dbUser?.role || 'tourist');
-        return result;
+        await signInWithRedirect(auth, googleProvider);
     };
     const loginWithGithub = async () => {
         const result = await signInWithPopup(auth, githubProvider);
