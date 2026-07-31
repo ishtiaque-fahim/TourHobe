@@ -12,6 +12,7 @@ const Login = () => {
     const { login, loginWithGoogle, loginWithGithub, currentUser } = useAuth();
     const navigate = useNavigate();
 
+    // Redirect if already logged in
     useEffect(() => {
         if (currentUser) {
             navigate('/dashboard', { replace: true });
@@ -24,7 +25,9 @@ const Login = () => {
             try {
                 const { getRedirectResult } = await import('firebase/auth');
                 const result = await getRedirectResult(auth);
+                console.log('Redirect result:', result);
                 if (result?.user) {
+                    console.log('User found:', result.user.email);
                     await axios.post('https://tourhobe-backend.onrender.com/api/users', {
                         firebaseUID: result.user.uid,
                         name: result.user.displayName || 'Tourist',
@@ -32,9 +35,11 @@ const Login = () => {
                         photoURL: result.user.photoURL || ''
                     });
                     navigate('/dashboard', { replace: true });
+                } else {
+                    console.log('No redirect result found');
                 }
             } catch (err) {
-                console.error('Redirect result error:', err);
+                console.error('Redirect result error:', err.code, err.message);
             }
         };
         handleRedirectResult();
@@ -88,7 +93,7 @@ const Login = () => {
                     <form onSubmit={handleLogin} className="flex flex-col gap-4">
                         <div className="form-control">
                             <label className="label">
-                                <span className="label-text">Email <br /></span>
+                                <span className="label-text">Email</span>
                             </label>
                             <input
                                 type="email"
@@ -101,7 +106,7 @@ const Login = () => {
                         </div>
                         <div className="form-control">
                             <label className="label">
-                                <span className="label-text">Password <br /></span>
+                                <span className="label-text">Password</span>
                             </label>
                             <input
                                 type="password"
