@@ -67,18 +67,6 @@ export const AuthProvider = ({ children }) => {
     };
 
     useEffect(() => {
-        setLoading(true);
-
-        getRedirectResult(auth).then(async (result) => {
-            if (result?.user) {
-                const dbUser = await syncUserToBackend(result.user);
-                setUserRole(dbUser?.role || 'tourist');
-                setCurrentUser(result.user);
-            }
-        }).catch((err) => {
-            console.error('Redirect result error:', err);
-        });
-
         const unsubscribe = onAuthStateChanged(auth, async (user) => {
             setCurrentUser(user);
             if (user) {
