@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const Home = () => {
     return (
         <div>
@@ -8,7 +10,7 @@ const Home = () => {
                     <div className="max-w-md">
                         <h1 className="mb-5 text-5xl font-bold">Discover Luxury Resorts</h1>
                         <p className="mb-5">Find and book the perfect resort in Beautiful Bangladesh</p>
-                        <button className="btn btn-primary btn-lg">Explore Resorts</button>
+                        <Link to="/resorts" className="btn btn-primary btn-lg">Explore Resorts</Link>
                     </div>
                 </div>
             </div>
