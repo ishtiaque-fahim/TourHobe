@@ -13,9 +13,9 @@ const Navbar = () => {
     return (
         <div className="navbar bg-base-100 shadow-md px-4">
             {/* Logo */}
-            <div className="flex-1">
-                <img src="/src/assets/logo.png" alt="TourHobe Logo" className="w-35 mb-2" />
-            </div>
+            <Link to="/" className="flex items-center gap-1">
+                <img src="/tourhobe.png" alt="TourHobe" className="h-10" />
+            </Link>
 
             {/* Nav Links */}
             <div className="flex-none gap-2">
