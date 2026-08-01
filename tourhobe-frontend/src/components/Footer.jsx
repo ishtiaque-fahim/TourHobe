@@ -4,7 +4,7 @@ const Footer = () => {
     return (
         <footer className="footer footer-center bg-base-200 text-base-content p-10 mt-10">
             <Link to="/" className="flex items-center gap-1">
-                <img src="/tourhobe.png" alt="TourHobe" className="h-10" />
+                <img src="/tourhobe.png" alt="TourHobe" className="h-14" />
             </Link>
             <div>
                 <div className="grid grid-flow-col gap-4">
