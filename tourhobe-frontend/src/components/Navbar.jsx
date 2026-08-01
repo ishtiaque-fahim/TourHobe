@@ -15,7 +15,7 @@ const Navbar = () => {
             {/* Logo */}
             <div className="flex-1">
                 <Link to="/">
-                    <img src="/tourhobe.png" alt="TourHobe" className="h-14" />
+                    <img src="/tourhobe.png" alt="TourHobe" className="h-24" />
                 </Link>
             </div>
 
